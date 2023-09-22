@@ -15,8 +15,8 @@ class AmbienteView {
                     case 1:
                         this.canvasContext.fillStyle = 'black';
                         break;
-                    case 'arboles':
-                        this.canvasContext.fillStyle = 'green';
+                    case 2:
+                        this.canvasContext.fillStyle = 'red';
                         break;
                     case 'arena':
                         this.canvasContext.fillStyle = 'yellow';

@@ -16,7 +16,13 @@ class Ambiente {
             for (let i = 0; i < width; i++) {
               cave.push([]);
               for (let j = 0; j < height; j++) {
-                cave[i].push(Math.random() < fillProb ? 1 : 0);
+                if (i > (width/2)-5 && i < (width/2)+5 && j > (height/2)-5 && j < (height/2)+5) {
+                  cave[i].push(0);
+                } else if (i === 0 || j === 0 || i == width - 1 || j == height - 1) {
+                  cave[i].push(1);
+                } else {
+                  cave[i].push(Math.random() < fillProb ? 1 : 0);
+                }
               }
             }
             for(let a=0; a<iterations; a++){
@@ -62,7 +68,7 @@ countAliveNeighbours( map, x, y){
 			//First, if a cell is alive but has too few neighbours, kill it. 
 			if(oldMap[x][y] == 1){
 				if(nbs < this.deathLimit){
- 					newMap[x][y] = 0;
+            newMap[x][y] = 0;
   				}
  				else{
  					newMap[x][y] = 1;
@@ -73,7 +79,7 @@ countAliveNeighbours( map, x, y){
 					newMap[x][y] = 1;   
 				}
 				else{
-					newMap[x][y] = 0;
+            newMap[x][y] = 0;
 				}
 			}
 		}
