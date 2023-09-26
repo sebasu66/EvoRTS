@@ -1,24 +1,23 @@
+import * as g from "../controladores/game_logic";
 
 class Ambiente {
-    constructor(ancho =512, alto=512, deathLimit = 3, birthLimit = 4, iterations = 3, fillProb = 0.36) {
-        this.width = ancho
-        this.height = alto;
+    constructor(deathLimit = 3, birthLimit = 4, iterations = 3, fillProb = 0.36) {
         this.count =0;
         this.birthLimit = birthLimit;
         this.deathLimit = deathLimit;
         this.iterations = iterations;
-        this.terreno = this.refinedCellularAutomataCave(this.width, this.height, fillProb, this.iterations, this.birthLimit, this.deathLimit);
+        this.terreno = this.refinedCellularAutomataCave(fillProb, this.iterations, this.birthLimit, this.deathLimit);
     }
           
-    refinedCellularAutomataCave(width, height, fillProb = 0.2, iterations = 3, birthLimit = 4, deathLimit = 3) {       
+    refinedCellularAutomataCave(fillProb = 0.2, iterations = 3, birthLimit = 4, deathLimit = 3) {       
            // definir un array bidimencional de 0s y 1s aleatorios
             let cave = [];  
-            for (let i = 0; i < width; i++) {
+            for (let i = 0; i < g.WORLD_WIDTH; i++) {
               cave.push([]);
-              for (let j = 0; j < height; j++) {
-                if (i > (width/2)-5 && i < (width/2)+5 && j > (height/2)-5 && j < (height/2)+5) {
+              for (let j = 0; j < g.WORLD_HEIGHT; j++) {
+                if (i > (g.WORLD_WIDTH/2)-5 && i < (g.WORLD_WIDTH/2)+5 && j > (g.WORLD_HEIGHT/2)-5 && j < (g.WORLD_HEIGHT/2)+5) {
                   cave[i].push(0);
-                } else if (i === 0 || j === 0 || i == width - 1 || j == height - 1) {
+                } else if (i === 0 || j === 0 || i == g.WORLD_WIDTH - 1 || j == g.WORLD_HEIGHT - 1) {
                   cave[i].push(1);
                 } else {
                   cave[i].push(Math.random() < fillProb ? 1 : 0);
@@ -91,19 +90,19 @@ countAliveNeighbours( map, x, y){
             // Ejecutar el autómata celular
             for (let iter = 0; iter < iterations; iter++) {
               const newCave = [...cave];
-              for (let x = 0; x < width; x++) {
-                for (let y = 0; y < height; y++) {
-                  const walls =this.countWalls(x, y, cave, width, height);
-                  console.log(walls, cave[x * width + y]);
+              for (let x = 0; x < g.WORLD_WIDTH; x++) {
+                for (let y = 0; y < g.WORLD_HEIGHT; y++) {
+                  const walls =this.countWalls(x, y, cave, g.WORLD_WIDTH, g.WORLD_HEIGHT);
+                  console.log(walls, cave[x * g.WORLD_WIDTH + y]);
 
-                  if (cave[x * width + y] === 1) {
+                  if (cave[x * g.WORLD_WIDTH + y] === 1) {
                     if (walls < deathLimit) {       
                         
-                      newCave[x * width + y] = 0; // Convertir a espacio vacío
+                      newCave[x * g.WORLD_WIDTH + y] = 0; // Convertir a espacio vacío
                     }
                   } else {
                     if (walls > birthLimit) {
-                      newCave[x * width + y] = 1; // Convertir en pared
+                      newCave[x * g.WORLD_WIDTH + y] = 1; // Convertir en pared
                     }
                   }
                 }
@@ -132,3 +131,5 @@ countAliveNeighbours( map, x, y){
     }
     
 }
+
+export default Ambiente;
