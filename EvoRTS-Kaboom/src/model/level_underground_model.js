@@ -1,13 +1,14 @@
 import * as g from "../game_logic";
 
-class World {
+class level_underground_model {
     constructor(deathLimit = 3, birthLimit = 4, iterations = 3, fillProb = 0.36) {
         this.count =0;
         this.birthLimit = birthLimit;
         this.deathLimit = deathLimit;
         this.iterations = iterations;
-        this.terreno = this.refinedCellularAutomataCave(fillProb, this.iterations, this.birthLimit, this.deathLimit);
-    }
+        this.terrain = this.refinedCellularAutomataCave(fillProb, this.iterations, this.birthLimit, this.deathLimit);
+      this.stringArray = this.setStringArray(this.terrain);
+      }
           
     refinedCellularAutomataCave(fillProb = 0.2, iterations = 3, birthLimit = 4, deathLimit = 3) {       
            // definir un array bidimencional de 0s y 1s aleatorios
@@ -28,20 +29,26 @@ class World {
                 cave = this.doSimulationStep(cave);
             }
             //one dimensionall String array
-            let caveOneDimention= Array();
-            for (let i = 0; i < g.WORLD_WIDTH; i++) {
-             let row="";
-              for (let j = 0; j < g.WORLD_HEIGHT; j++) {
-                //put a robot in the middle of the map
-                let s = cave[i][j] === 1 ? "W" : " ";
-                row=row+ s;
-                      }
-              caveOneDimention.push(row);
-            }
+            
+            
 
             //console.log(caveOneDimention);
-            return caveOneDimention;
+            
+            return cave;
 
+}
+
+setStringArray(cave){
+  let caveOneDimention= [];
+  for (let i = 0; i < g.WORLD_WIDTH; i++) {
+   let row = ""
+    for (let j = 0; j < g.WORLD_HEIGHT; j++) {
+      let s = cave[i][j] === 1 ? "W" : " ";
+      row = row + s;
+            }
+    caveOneDimention.push(row);
+  }
+  return caveOneDimention;
 }
 
 //Returns the number of cells in a ring around (x,y) that are alive. 
@@ -98,51 +105,7 @@ countAliveNeighbours( map, x, y){
 	}
 	return newMap;
 }
-
-/*
-            // Ejecutar el autómata celular
-            for (let iter = 0; iter < iterations; iter++) {
-              const newCave = [...cave];
-              for (let x = 0; x < g.WORLD_WIDTH; x++) {
-                for (let y = 0; y < g.WORLD_HEIGHT; y++) {
-                  const walls =this.countWalls(x, y, cave, g.WORLD_WIDTH, g.WORLD_HEIGHT);
-                  console.log(walls, cave[x * g.WORLD_WIDTH + y]);
-
-                  if (cave[x * g.WORLD_WIDTH + y] === 1) {
-                    if (walls < deathLimit) {       
-                        
-                      newCave[x * g.WORLD_WIDTH + y] = 0; // Convertir a espacio vacío
-                    }
-                  } else {
-                    if (walls > birthLimit) {
-                      newCave[x * g.WORLD_WIDTH + y] = 1; // Convertir en pared
-                    }
-                  }
-                }
-              }
-              cave = newCave;
-            }
-          
-            return cave;
-          }
-  */        
-    generarCueva() {
-        let caveMap = this.refinedCellularAutomataCave(this.ancho, this.alto);
-        console.log(caveMap);
-            let terreno = [];
-       for (let i = 0; i < this.ancho; i++) {
-            terreno.push([]);
-            for (let j = 0; j < this.alto; j++) {
-                if (caveMap[i][j] < 1) {
-                    terreno[i].push('agua');
-                        } else {
-                    terreno[i].push('piedra');
-                }
-            }
-        }
-        return terreno;
-    }
     
 }
 
-export default World;
+export default level_underground_model 
