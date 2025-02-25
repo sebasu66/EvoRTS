@@ -1,22 +1,28 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EvoColonies</title>
-    <style>
-        canvas {
-            border: 1px solid black;
-            display: block;
-            margin: 20px auto;
-        }
-    </style>
-</head>
-<body>
-    <canvas id="gameCanvas" width="2500" height="2500"></canvas>
-    <script src="./modelos/Ambiente_model.js"></script>
-    <script src="./vistas/Ambiente_view.js"></script>
-    <script type="module" src="./controladores/main_controller.js"></script>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EvoRTS - Code-Driven RTS Game</title>
+        <link rel="stylesheet" href="styles/main.css">
+    </head>
+    <body>
+        <div class="header">
+            <h1>EvoRTS - Code-Driven RTS</h1>
+        </div>
+        <div class="main-container">
+            <canvas id="gameCanvas"></canvas>
+            <div class="sidebar">
+                <div id="code-panel-container"></div>
+                <div id="log-panel"></div>
+            </div>
+        </div>
+        <div class="controls-bar">
+            <button id="play-pause">Pause</button>
+            <button id="status-toggle">Show Status</button>
+            <button id="reset-game">Reset Game</button>
+            <button id="reset-code">Reset Code</button>
+        </div>
+        <script type="module" src="src/main.js"></script>
+    </body>
 </html>
